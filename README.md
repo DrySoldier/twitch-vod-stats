@@ -12,21 +12,7 @@
 
 ## API Usage
 
-For a JSON object of all the information generated, add '/api' right before vod, but before '/vods'.
-
-For example, if your normal URL is 
-
-`http://twitch-vod-stats.herokuapp.com/vods/409570359`
-
-then to get the API info, change it to: 
-
-`http://twitch-vod-stats.herokuapp.com/api/vods/409570359`
-
-You can also leave the page and press the back button to get the normal JSON object. Simply reload the page to get rid of it. Why did I keep this feature in? Because this is an information tool, and the information should be freely used by all.
-
-## How to run locally
-
-You cannot. While the front-end is open-source, I have decided to make a seperate, private repo for the server.
+See the API repository: https://github.com/DrySoldier/twitch-vod-stats-api
 
 ## Built with
 
@@ -42,7 +28,7 @@ You cannot. While the front-end is open-source, I have decided to make a seperat
 
 ## Contributing
 
-Simply make a pull request. If you have ideas for how to make the server-side better, contact me personally via my email found on my profile.
+Simply make a pull request.
 
 ## Acknowledgments
 
