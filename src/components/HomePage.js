@@ -25,8 +25,11 @@ class HomePage extends Component {
             vodID: null,
             toVod: false,
 
+            valueSubmitted: null,
+
             hasError: false,
             error: null,
+            errorTitle: '',
 
             disabled: false,
         };
@@ -68,26 +71,31 @@ class HomePage extends Component {
 
     createStatsFunc = id => {
 
+        this.setState({ valueSubmitted: id });
+
+        setInterval(() => {
+            this.areStatsCreated(this.state.valueSubmitted);
+        }, 90000);
+
         API.createStats(id)
             .then((res) => {
-
-                this.setState({ loading: false });
 
                 console.log('data:', res.data);
 
                 if (res.data.error) {
-
-                    this.setState({ hasError: true, error: res.data.error, disabled: false });
-
-                } else {
-                    console.log(res.data)
-                    delay(1000).then(() => window.location.href = encodeURI(`/vods/${res.data}`));
+                    this.setState({ hasError: true, error: res.data.error, disabled: false, loading: false, errorTitle: 'Error' });
                 }
-
-
             })
             .catch(err => {
             });
+    }
+
+    areStatsCreated = id => {
+        console.log('Checking if object with id: ' + id + ' is created')
+        API.areStatsCreated(id)
+            .then((res) => {
+                delay(1000).then(() => window.location.href = encodeURI(`/vods/${res.data}`));
+            })
     }
 
     render() {
@@ -102,7 +110,7 @@ class HomePage extends Component {
                         <Button style={{ width: 200, marginTop: 50 }} disabled={this.state.disabled} onClick={event => this.handleClick(event)}>Generate Stats</Button>
                         <div style={{ marginTop: 50 }}>
                             {this.state.hasError &&
-                                <InfoCard title={'Error'}>
+                                <InfoCard title={this.state.errorTitle}>
                                     {this.state.error}
                                 </InfoCard>
                             }
