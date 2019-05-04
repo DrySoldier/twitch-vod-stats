@@ -34,6 +34,8 @@ class VodPage extends Component {
             broadcasterChannel: null,
 
             loading: false,
+
+            value: '',
         };
     }
 
@@ -45,27 +47,37 @@ class VodPage extends Component {
 
         API.getStats(this.props.match.params.id).then(res => {
 
-                console.log(res.data);
+            console.log(res.data);
 
-                let { topTenChatters, topTenMessages, totalMessages, totalUniqueChatters, countsTimeStamps } = res.data;
+            let { topTenChatters, topTenMessages, totalMessages, totalUniqueChatters, countsTimeStamps } = res.data;
 
-                this.setState({
-                    topTenChatters,
-                    topTenMessages,
-                    totalMessages,
-                    totalUniqueChatters,
-                    data: countsTimeStamps,
-                    vodTitle: res.data.obj[0].vodTitle,
-                    vodURL: res.data.obj[0].vodURL,
-                    previewURL: res.data.obj[0].previewURL,
-                    broadcasterName: res.data.obj[0].broadcasterName,
-                    broadcasterChannel: res.data.obj[0].broadcasterChannel,
+            this.setState({
+                topTenChatters,
+                topTenMessages,
+                totalMessages,
+                totalUniqueChatters,
+                data: countsTimeStamps,
+                vodTitle: res.data.obj[0].vodTitle,
+                vodURL: res.data.obj[0].vodURL,
+                previewURL: res.data.obj[0].previewURL,
+                broadcasterName: res.data.obj[0].broadcasterName,
+                broadcasterChannel: res.data.obj[0].broadcasterChannel,
 
-                    loading: false,
-                });
+                loading: false,
+            });
 
-            })
+        })
             .catch(err => console.log(err));
+    }
+
+    handleChange = (event) => {
+        event.preventDefault();
+        this.setState({ value: event.target.value });
+    }
+
+    handleSubmit = () => {
+
+        console.log(this.state.data);
     }
 
     render() {
@@ -102,6 +114,7 @@ class VodPage extends Component {
                                     <a href={this.state.vodURL}>{this.state.vodURL}</a>
                                 </div>
                             </ContentCard>
+
                         </div>
 
                         <InfoCard title={'Most Copied Messages'} data={this.state.topTenMessages} />
@@ -109,6 +122,13 @@ class VodPage extends Component {
                     </div>
 
                 </TableCard>
+
+                <ContentCard title={'Search Graph for Specific Word'} style={{ marginTop: 50 }}>
+                    <form onSubmit={this.handleSubmit}>
+                        <input type="text" value={this.state.value} onChange={this.handleChange} />
+                        <input type="submit" value="Submit" />
+                    </form>
+                </ContentCard>
 
                 <TableCard style={{ flexWrap: 'wrap', overflow: 'auto' }} title={'Message Frequency / Notable spikes in messages'}>
                     <LineChart data={this.state.data} />

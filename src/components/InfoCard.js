@@ -1,5 +1,4 @@
 import React from 'react';
-import { animated } from 'react-spring'
 
 import Col from 'react-bootstrap/Col';
 
@@ -10,10 +9,10 @@ const InfoCard = (props) => {
             let stuff = [];
             for (let i = 0; i < data.length; i++) {
                 stuff.push(
-                    <animated.div key={i} style={{ width: '100%', flexDirection: 'column' }}>
+                    <div key={i} style={{ width: '100%', flexDirection: 'column' }}>
                         {data[i][0]} - {data[i][1]}
                         <hr />
-                    </animated.div>
+                    </div>
                 );
             }
 
