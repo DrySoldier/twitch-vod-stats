@@ -4,7 +4,7 @@ const NoMatch = (props) => {
 
     return (
         <div>
-            <h3 style={{ color: 'white', marginTop: 100 }}>404</h3>
+            <h3 className='no-match'>404</h3>
         </div>
     );
 }

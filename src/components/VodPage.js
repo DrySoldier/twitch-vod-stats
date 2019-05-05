@@ -25,6 +25,8 @@ class VodPage extends Component {
             totalMessages: null,
             totalUniqueChatters: null,
             countsTimeStamps: null,
+            messagesOnly: null,
+            timeStampsOnly: null,
 
             data: null,
             vodTitle: null,
@@ -49,19 +51,22 @@ class VodPage extends Component {
 
             console.log(res.data);
 
-            let { topTenChatters, topTenMessages, totalMessages, totalUniqueChatters, countsTimeStamps } = res.data;
+            let { topTenChatters, topTenMessages, totalMessages, totalUniqueChatters, countsTimeStamps, messagesOnly, timeStampsOnly } = res.data;
 
             this.setState({
                 topTenChatters,
                 topTenMessages,
                 totalMessages,
                 totalUniqueChatters,
+                messagesOnly,
+                timeStampsOnly,
                 data: countsTimeStamps,
                 vodTitle: res.data.obj[0].vodTitle,
                 vodURL: res.data.obj[0].vodURL,
                 previewURL: res.data.obj[0].previewURL,
                 broadcasterName: res.data.obj[0].broadcasterName,
                 broadcasterChannel: res.data.obj[0].broadcasterChannel,
+
 
                 loading: false,
             });
@@ -71,27 +76,50 @@ class VodPage extends Component {
     }
 
     handleChange = (event) => {
-        event.preventDefault();
         this.setState({ value: event.target.value });
     }
 
-    handleSubmit = () => {
+    handleSubmit = event => {
+        event.preventDefault();
 
-        console.log(this.state.data);
+        let indexes = [];
+        let newTimestamps = [];
+        let timestampObject = {};
+
+        let keywords = this.state.value.split(' ');
+    
+        for (let i = 0; i < this.state.messagesOnly.length; i++) {
+            for (let j = 0; j < keywords.length; j++) {
+                if(this.state.messagesOnly[i].includes(keywords[j])){
+                    indexes.push(i)
+                } 
+            }
+        }
+
+        for (let i = 0; i < this.state.timeStampsOnly.length; i++) {
+            for (let j = 0; j < indexes.length; j++) {
+                if(i === indexes[j]){
+                    newTimestamps.push(this.state.timeStampsOnly[i]);
+                }
+            }
+        }
+        newTimestamps.forEach(function (x) { timestampObject[x] = (timestampObject[x] || 0) + 1; });
+
+        this.setState({ data: timestampObject });
     }
 
     render() {
 
         return (
 
-            <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <div className='vod-page-container'>
                 <TableCard title={'General Data'}>
 
-                    <div style={{ display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <div className='main-content'>
 
                         <InfoCard title={'Users with Most Messages'} data={this.state.topTenChatters} />
 
-                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <div className='broadcaster-info'>
                             <ContentCard title={'Total Messages'}>
                                 <h3>{this.state.totalMessages}</h3>
                                 {this.state.loading &&
@@ -123,14 +151,14 @@ class VodPage extends Component {
 
                 </TableCard>
 
-                <ContentCard title={'Search Graph for Specific Word'} style={{ marginTop: 50 }}>
+                <ContentCard title={'Search Graph for Specific Word'} className='margin-50'>
                     <form onSubmit={this.handleSubmit}>
                         <input type="text" value={this.state.value} onChange={this.handleChange} />
                         <input type="submit" value="Submit" />
                     </form>
                 </ContentCard>
 
-                <TableCard style={{ flexWrap: 'wrap', overflow: 'auto' }} title={'Message Frequency / Notable spikes in messages'}>
+                <TableCard className='chart-div' title={'Message Frequency / Notable spikes in messages'}>
                     <LineChart data={this.state.data} />
                 </TableCard>
             </div>

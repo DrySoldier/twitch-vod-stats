@@ -9,7 +9,7 @@ const InfoCard = (props) => {
             let stuff = [];
             for (let i = 0; i < data.length; i++) {
                 stuff.push(
-                    <div key={i} style={{ width: '100%', flexDirection: 'column' }}>
+                    <div key={i} className='dynamic-div'>
                         {data[i][0]} - {data[i][1]}
                         <hr />
                     </div>
@@ -23,7 +23,7 @@ const InfoCard = (props) => {
     return (
         <Col >
             <div className="card text-center box-shadow">
-                <div style={[{ marginTop: 5 }]} className='card-title'><h3>{props.title}</h3></div>
+                <div className='card-title'><h3>{props.title}</h3></div>
                 <div className="card-body justify-content-md-center">
                     {renderItems(props.data)}
                 </div>

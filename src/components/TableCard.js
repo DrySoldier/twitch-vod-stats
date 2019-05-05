@@ -6,7 +6,7 @@ export default class TableCard extends Component {
 
     render() {
         return (
-            <Row className='box-shadow card' style={{ marginTop: 25, width: '85%' }}>
+            <Row className='box-shadow card row-style'>
                 <h3>{this.props.title}</h3>
                 <div>
                     {this.props.children}

@@ -6,9 +6,9 @@ export default class ContentCard extends Component {
 
     render() {
         return (
-            <Col style={{ minHeight: 200, maxWidth: 350, overflow: 'auto' }}>
+            <Col className='content-card'>
                 <div className='card text-center box-shadow'>
-                    <div style={{ marginTop: 15 }} className='card-title'><h4>{this.props.title}</h4></div>
+                    <div className='card-title'><h4>{this.props.title}</h4></div>
                     <div className="card-body d-flex align-items-center flex-column justify-content-md-center">
                         {this.props.children}
                     </div>

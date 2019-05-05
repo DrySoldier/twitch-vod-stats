@@ -84,6 +84,8 @@ class HomePage extends Component {
 
                 if (res.data.error) {
                     this.setState({ hasError: true, error: res.data.error, disabled: false, loading: false, errorTitle: 'Error' });
+                } else {
+                    delay(1000).then(() => window.location.href = encodeURI(`/vods/${res.data}`));
                 }
             })
             .catch(err => {
