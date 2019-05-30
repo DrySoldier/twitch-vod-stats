@@ -43,8 +43,6 @@ class VodPage extends Component {
 
     componentDidMount() {
 
-        console.log('Component Mounted');
-
         this.setState({ loading: true });
 
         API.getStats(this.props.match.params.id).then(res => {
@@ -124,7 +122,7 @@ class VodPage extends Component {
                                 <h3>{this.state.totalMessages}</h3>
                                 {this.state.loading &&
                                     <Spinner animation="border" role="status">
-                                        <span className="sr-only">Loading...</span>
+                                        <span className="sr-only margin">Loading...</span>
                                     </Spinner>
                                 }
                             </ContentCard>
