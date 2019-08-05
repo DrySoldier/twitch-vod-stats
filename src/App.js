@@ -19,9 +19,9 @@ class App extends Component {
 
         <Router>
           <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route exact path="/vods/:id" component={VodPage} />
-              <Route component={NoMatch} />
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/vods/:id" component={VodPage} />
+            <Route component={NoMatch} />
           </Switch>
         </Router>
 

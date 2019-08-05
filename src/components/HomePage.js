@@ -38,12 +38,13 @@ class HomePage extends Component {
         };
 
         this.done = false;
+        this.err = null;
     }
 
     componentDidMount() {
         this.setState({
             previews: [
-                <Spinner animation="border" role="status">
+                <Spinner key={'spinner'} animation="border" role="status">
                     <span className="sr-only margin">Loading...</span>
                 </Spinner>
             ]
@@ -74,14 +75,11 @@ class HomePage extends Component {
                 let finalVodID = urlParam.split('?');
                 finalVodID = finalVodID[0];
 
-                console.log('Sending id:', finalVodID);
                 this.createStatsFunc(finalVodID);
             } else {
-                console.log('Sending id:', urlParam);
                 this.createStatsFunc(urlParam);
             }
         } else {
-            console.log('Sending id:', userInput);
             this.createStatsFunc(userInput);
         }
     }
@@ -95,11 +93,11 @@ class HomePage extends Component {
         }, 60000);
 
         setInterval(() => {
-            if(!this.done){
-                if (this.state.progress >= 70) {
-                    this.setState({ progress: this.state.progress + .01 });
-                } else if (this.state.progress >= 95) {
+            if (!this.done) {
+                if (this.state.progress <= 70) {
                     this.setState({ progress: this.state.progress + .1 });
+                } else if (this.state.progress <= 95) {
+                    this.setState({ progress: this.state.progress + .01 });
                 }
             }
 
@@ -107,9 +105,6 @@ class HomePage extends Component {
 
         API.createStats(id)
             .then((res) => {
-
-                console.log('data:', res.data);
-
                 if (res.data.error) {
                     this.setState({ hasError: true, error: res.data.error, disabled: false, loading: false, errorTitle: 'Error' });
                 } else {
@@ -118,35 +113,33 @@ class HomePage extends Component {
                     delay(1000).then(() => window.location.href = encodeURI(`/vods/${res.data}`));
                 }
             })
-            .catch(err => {
-            });
+            .catch(err => this.err = err);
     }
 
     areStatsCreated = id => {
-        console.log('Checking if object with id: ' + id + ' is created');
         API.areStatsCreated(id)
             .then((res) => {
-                this.done = true;
-                this.setState({ progress: 100 });
-                delay(1000).then(() => window.location.href = encodeURI(`/vods/${res.data}`));
+                if(res.data !== false){
+                    this.done = true;
+                    this.setState({ progress: 100 });
+                    delay(1000).then(() => window.location.href = encodeURI(`/vods/${res.data}`));
+                }
             })
     }
 
     recentStats = () => {
-        console.log('Get Recent Stats Triggered');
         API.getRecentStats()
             .then((res) => {
-                console.log(res);
 
                 let { previewArr, titleArr, vodIDArr } = res.data;
                 let dupeArr = [];
                 let previews = [];
 
                 for (let i = 0; i < previewArr.length; i++) {
-                    if(!dupeArr.includes(vodIDArr[i])){
+                    if (!dupeArr.includes(vodIDArr[i])) {
                         dupeArr.push(vodIDArr[i]);
                         previews.push(
-                            <a href={`/vods/${vodIDArr[i]}`}>
+                            <a key={i} href={`/vods/${vodIDArr[i]}`}>
                                 <ContentCard title={titleArr[i]} >
                                     <img src={previewArr[i]} className='preview-img box-shadow' alt='preview'></img>
                                 </ContentCard>
@@ -157,7 +150,7 @@ class HomePage extends Component {
 
                 this.setState({ previews });
 
-            });
+            }).catch(err => { });
     }
 
     handlePreviewClick = (event, vodID) => {
