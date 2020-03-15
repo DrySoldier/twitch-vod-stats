@@ -10,7 +10,6 @@ import API from '../utils/API';
 
 import videoTab from '../assets/images/video_tab.png';
 import urlPic from '../assets/images/url.png';
-import loading from '../assets/images/loading.png';
 
 import '../App.css';
 
