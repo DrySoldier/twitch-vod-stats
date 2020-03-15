@@ -64,11 +64,11 @@ class HomePage extends Component {
   handleClick = event => {
     event.preventDefault();
 
-    this.setState({ loading: true, hasError: false, disabled: true });
-
     let userInput = this.state.currentValue.trim();
 
-    if (userInput.includes('/')) {
+    if (userInput.includes('/') && userInput !== '') {
+      this.setState({ loading: true, hasError: false, disabled: true });
+
       let urlParam = userInput.split('/');
 
       urlParam = urlParam[urlParam.length - 1];
@@ -190,15 +190,7 @@ class HomePage extends Component {
           }}
         >
           <input
-            style={{
-              width: 300,
-              marginTop: 25,
-              textAlign: 'center',
-              borderColor: 'gray',
-              borderWidth: 1,
-              borderStyle: 'solid',
-              borderRadius: 4
-            }}
+            className="input"
             value={this.state.currentValue}
             onChange={text => this.handleInputChange(text)}
           />
@@ -249,26 +241,10 @@ class HomePage extends Component {
           </div>
         </TableCard>
 
+        <div className="space"></div>
+
         <TableCard title={'Recently Created Stats'}>
           <div className="preview-div">{this.state.previews}</div>
-        </TableCard>
-
-        <TableCard>
-          <div className="tutorial-content">
-            <span>There are a couple of caveats to be aware of:</span>
-            <span>
-              1. The entire chat log is given through the console, so vods with
-              a very large amount of messsages might not load
-            </span>
-            <span>
-              2. Clips cannot be loaded, make sure it's a vod! Vods always have
-              an 9-digit number at the end of the URL
-            </span>
-            <span>Thanks for using Twitch Vod Stats!</span>
-            <a href="https://github.com/DrySoldier/twitch-vod-stats">
-              Github Repo
-            </a>
-          </div>
         </TableCard>
       </div>
     );

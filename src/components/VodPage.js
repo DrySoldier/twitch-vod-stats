@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Spinner from 'react-bootstrap/Spinner';
+import Button from 'react-bootstrap/Button';
 
 import TableCard from './TableCard';
 import InfoCard from './InfoCard';
@@ -156,18 +157,20 @@ class VodPage extends Component {
           </div>
         </TableCard>
 
-        <ContentCard
-          title={'Search Graph for Specific Word'}
-          className="margin-50"
-        >
-          <form onSubmit={this.handleSubmit}>
-            <input
-              type="text"
-              value={this.state.value}
-              onChange={this.handleChange}
-            />
-            <input type="submit" value="Submit" />
-          </form>
+        <ContentCard title={'Search Graph for Specific Word'}>
+          <input
+            type="text"
+            value={this.state.value}
+            onChange={this.handleChange}
+            className="input graph-input"
+          />
+          <Button
+            style={{ width: 200, marginTop: 50 }}
+            disabled={this.state.disabled}
+            onClick={this.handleSubmit}
+          >
+            Submit
+          </Button>
         </ContentCard>
 
         <TableCard

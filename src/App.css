@@ -14,7 +14,8 @@
 .header-text {
   color: white;
   font-family: Mosk-Bold;
-  font-size: 75px;
+  font-size: 60px;
+  margin-bottom: 50px;
 }
 
 @font-face {
@@ -32,7 +33,9 @@
 }
 
 .header-div {
-  width: 100%;
+  display: flex;
+  flex: 1;
+  justify-content: center;
 }
 
 .white {
@@ -154,6 +157,7 @@
 .tutorial {
   flex-direction: row;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .tutorial-content {
@@ -162,6 +166,23 @@
   display: flex;
   padding: 25px;
   justify-content: center;
+}
+
+.input {
+  width: 300px;
+  text-align: center;
+  border-color: gray;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+}
+
+.graph-input {
+  width: 250px;
+}
+
+.space {
+  height: 125px;
 }
 
 .tutorial-image {
