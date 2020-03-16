@@ -23,8 +23,7 @@ See the API repository: https://github.com/DrySoldier/twitch-vod-stats-api
     react-chartkick: 0.3.0,
     react-dom: 16.8.6,
     react-router-dom: ^5.0.0,
-    react-scripts: 2.1.8,
-    react-spring: 8.0.19
+    react-scripts: 2.1.8
 
 ## Contributing
 
